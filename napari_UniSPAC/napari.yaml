@@ -1,0 +1,11 @@
+name: napari-UniSPAC
+contributions:
+  commands:
+    - id: napari-UniSPAC.seg
+      title: UniSPAC
+      python_name: napari_UniSPAC._widget:UniSPACwidget
+      # python_name: napari_UniSPAC.demo:ImageViewer
+  widgets:
+    - command:  napari-UniSPAC.seg  # note, same as command.id above
+      display_name: UniSPAC
+      # autogenerate: true

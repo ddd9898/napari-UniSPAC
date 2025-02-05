@@ -1,0 +1,7 @@
+Metadata-Version: 2.2
+Name: napari-UniSPAC
+Version: 1.0.0
+Summary: A Unified Segmentation framework for Proofreading and Annotation in Connectomics (UniSPAC)!
+Home-page: https://github.com/ddd9898/UniSPAC
+Classifier: Framework :: napari
+Requires-Dist: napari
