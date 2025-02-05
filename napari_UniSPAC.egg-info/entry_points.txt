@@ -1,2 +1,0 @@
-[napari.manifest]
-napari-UniSPAC = napari_UniSPAC:napari.yaml
