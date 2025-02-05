@@ -1,3 +1,5 @@
+LICENSE
+README.md
 pyproject.toml
 setup.cfg
 napari_UniSPAC/__init__.py
