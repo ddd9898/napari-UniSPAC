@@ -20,3 +20,5 @@ Step 3: run napari:
 ```shell
 napari
 ```
+
+You can familiarise yourself with how UniSPAC's napari plugin operates by labeling  `test_roi1_sub_z0-100.tiff`, which is an example of Drosophila vEM images.
