@@ -3,7 +3,7 @@ The napari plugin for UniSPAC [A Unified Segmentation framework for Proofreading
 
 ## Requirements
 
-A system with enough GPU memory (recommended 24GB) and pytorch installed.
+A system with enough GPU memory and pytorch installed. The size of the GPU memory is related to the size of the vEM image that can be processed. For  `test_roi1_sub_z0-100.tiff` with a shape of 800x800x100, the recommended minimum GPU memory is 12GB.
 
 ## Installation
 
