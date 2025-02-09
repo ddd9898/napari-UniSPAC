@@ -976,7 +976,7 @@ class UniSPACwidget(QWidget):
         z_size, x_size, y_size = self.label_layer.data.shape
         # print(self.label_layer.data.shape)
         # print(coords)
-        if coords[0] < z_size and coords[0] > 0 and coords[1] < x_size and coords[1] > 0 and coords[2] < y_size and coords[2] > 0:
+        if coords[0] < z_size and coords[0] >= 0 and coords[1] < x_size and coords[1] >= 0 and coords[2] < y_size and coords[2] >= 0:
             self._save_history({"mode": AnnotatorMode.CLICK, "points": copy.deepcopy(self.points), "bboxes": copy.deepcopy(self.bboxes), "logits": self.sam_logits, "point_label": self.point_label})
 
             self.point_label = self.label_layer.selected_label
@@ -1218,7 +1218,7 @@ class UniSPACwidget(QWidget):
                 raw_patch = copy.deepcopy(self.raw_tensors[:,:,(index_slice-trace_slices):index_slice]).to(self.device)
                 raw_patch = torch.flip(raw_patch,dims=[2])
             else:
-                raw_patch = copy.deepcopy(self.raw_tensors[:,:,:index_slice]).to(self.device)
+                raw_patch = copy.deepcopy(self.raw_tensors[:,:,:index_slice+1]).to(self.device)
             raw_patch = raw_patch.permute(0,1,3,4,2)
             # print("raw shape = {}".format(raw_patch.shape))
             ##Load 2D mask
@@ -1241,6 +1241,7 @@ class UniSPACwidget(QWidget):
             y_mask = y_mask[:,16:16+self.image_layer.data.shape[1],16:16+self.image_layer.data.shape[2]]
 
             #Render
+            # print("index_slice={},true_trace_slices={}".format(index_slice,true_trace_slices))
             for index_add in range(1,true_trace_slices):
                 if direction == 1:
                     label_layer = np.asarray(self.label_layer.data[index_slice+index_add])
