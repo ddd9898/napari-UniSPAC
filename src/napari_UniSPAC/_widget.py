@@ -1266,7 +1266,8 @@ class UniSPACwidget(QWidget):
 
             y_mask,y_lsds,y_affinity = self.UniSPAC2D_model(self.raw_tensors,self.point_map)
             prediction = ((y_mask>0.5)+0).cpu().squeeze()
-            prediction = prediction[:self.image_layer.data.shape[0],:self.image_layer.data.shape[1]]
+            # prediction = prediction[:self.image_layer.data.shape[0],:self.image_layer.data.shape[1]]
+            prediction = prediction[16:16+self.image_layer.data.shape[0],16:16+self.image_layer.data.shape[1]]
 
         elif self.image_layer.ndim == 3:
             ##Inference
