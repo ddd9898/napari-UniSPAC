@@ -966,6 +966,7 @@ class UniSPACwidget(QWidget):
         self.pad_size_x = pad_size_x
         self.pad_size_y = pad_size_y
 
+
     def do_point_click(self, coords, is_positive):
         # Check if there is already a point at these coordinates
         for label, points in self.points.items():
@@ -973,22 +974,41 @@ class UniSPACwidget(QWidget):
                 warnings.warn("There is already a point in this location. This click will be ignored.")
                 return
             
-        z_size, x_size, y_size = self.label_layer.data.shape
-        # print(self.label_layer.data.shape)
-        # print(coords)
-        if coords[0] < z_size and coords[0] >= 0 and coords[1] < x_size and coords[1] >= 0 and coords[2] < y_size and coords[2] >= 0:
-            self._save_history({"mode": AnnotatorMode.CLICK, "points": copy.deepcopy(self.points), "bboxes": copy.deepcopy(self.bboxes), "logits": self.sam_logits, "point_label": self.point_label})
+        if self.image_layer.ndim == 2:
+            x_size, y_size = self.label_layer.data.shape
+            # print(self.label_layer.data.shape)
+            # print(coords)
+            if coords[0] < x_size and coords[0] >= 0 and coords[1] < y_size and coords[1] >= 0:
+                self._save_history({"mode": AnnotatorMode.CLICK, "points": copy.deepcopy(self.points), "bboxes": copy.deepcopy(self.bboxes), "logits": self.sam_logits, "point_label": self.point_label})
 
-            self.point_label = self.label_layer.selected_label
-            # if not is_positive:
-            #     self.point_label = 0
+                self.point_label = self.label_layer.selected_label
+                # if not is_positive:
+                #     self.point_label = 0
 
-            self.points[self.point_label].append((coords,is_positive))
+                self.points[self.point_label].append((coords,is_positive))
 
-            self.predict_click(self.points, self.point_label, coords, is_positive)
-            with warnings.catch_warnings():
-                warnings.filterwarnings("ignore", category=FutureWarning)
-                # self.label_layer._save_history((self.label_layer_changes["indices"], self.label_layer_changes["old_values"], self.label_layer_changes["new_values"]))
+                self.predict_click(self.points, self.point_label, coords, is_positive)
+                with warnings.catch_warnings():
+                    warnings.filterwarnings("ignore", category=FutureWarning)
+                    # self.label_layer._save_history((self.label_layer_changes["indices"], self.label_layer_changes["old_values"], self.label_layer_changes["new_values"]))
+        elif self.image_layer.ndim == 3:
+            z_size, x_size, y_size = self.label_layer.data.shape
+            # print(self.label_layer.data.shape)
+            # print(coords)
+            if coords[0] < z_size and coords[0] >= 0 and coords[1] < x_size and coords[1] >= 0 and coords[2] < y_size and coords[2] >= 0:
+                self._save_history({"mode": AnnotatorMode.CLICK, "points": copy.deepcopy(self.points), "bboxes": copy.deepcopy(self.bboxes), "logits": self.sam_logits, "point_label": self.point_label})
+
+                self.point_label = self.label_layer.selected_label
+                # if not is_positive:
+                #     self.point_label = 0
+
+                self.points[self.point_label].append((coords,is_positive))
+
+                self.predict_click(self.points, self.point_label, coords, is_positive)
+                with warnings.catch_warnings():
+                    warnings.filterwarnings("ignore", category=FutureWarning)
+                    # self.label_layer._save_history((self.label_layer_changes["indices"], self.label_layer_changes["old_values"], self.label_layer_changes["new_values"]))
+
 
     def predict_click(self, points, point_label, current_point, is_positive):
         self.update_points_layer(points)
@@ -1268,6 +1288,16 @@ class UniSPACwidget(QWidget):
             prediction = ((y_mask>0.5)+0).cpu().squeeze()
             # prediction = prediction[:self.image_layer.data.shape[0],:self.image_layer.data.shape[1]]
             prediction = prediction[16:16+self.image_layer.data.shape[0],16:16+self.image_layer.data.shape[1]]
+            
+            
+            # y_affinity = y_affinity.cpu().numpy().squeeze()
+            # print(y_affinity.shape)
+            # import matplotlib.pyplot as plt
+            # plt.figure(figsize=(10,10))
+            # plt.imshow(y_affinity[0], cmap='jet')
+            # plt.imshow(y_affinity[1], cmap='jet', alpha=0.5)
+            # plt.savefig('/home/ubuntu/Downloads/napari-UniSPAC/test_affninty.tiff')
+
 
         elif self.image_layer.ndim == 3:
             ##Inference
