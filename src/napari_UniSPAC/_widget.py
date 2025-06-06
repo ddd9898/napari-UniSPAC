@@ -43,7 +43,7 @@ class BboxState(Enum):
 
 UniSPAC_MODELS = {
     "UniSPAC": {"filename": "segEM2d(hemi+fib25)_Best_in_val.model", "url": "https://cloud.tsinghua.edu.cn/f/3269eaab609244009ea2/?dl=1", "model": 0},
-    "UniSPAC*": {"filename": "segEM2d(hemi+fib25+cremi)_Best_in_val.model", "url": "https://cloud.tsinghua.edu.cn/f/3269eaab609244009ea2/?dl=1", "model": 0},
+    "UniSPAC(+CREMI)": {"filename": "segEM2d(hemi+fib25+cremi)_Best_in_val.model", "url": "https://cloud.tsinghua.edu.cn/f/3269eaab609244009ea2/?dl=1", "model": 0},
 }
 
 
@@ -228,7 +228,7 @@ class UniSPACwidget(QWidget):
         self.g_info_tooltip = QGroupBox("Tooltip Information")
         self.l_info_tooltip = QVBoxLayout()
         self.label_info_tooltip = QLabel("UniSPAC model: the model trained on HemiBrain and FIB-25 data.\n"
-                                        "UniSPAC* model: the model trained on HemiBrain, FIB-25 and CREMI data")
+                                        "UniSPAC(+CREMI) model: the model trained on HemiBrain, FIB-25 and CREMI data")
         self.label_info_tooltip.setWordWrap(True)
         self.l_info_tooltip.addWidget(self.label_info_tooltip)
         self.g_info_tooltip.setLayout(self.l_info_tooltip)
